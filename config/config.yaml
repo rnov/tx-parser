@@ -1,0 +1,9 @@
+parser:
+  http_server:
+    url: "localhost:8080"
+  node_checker:
+    node_address: "https://cloudflare-eth.com"
+    interval_check: 12
+  storage:
+    type: "virtual"
+
