@@ -60,6 +60,7 @@ func (a *AddressHistoryVirtualStorage) GetAddresses() ([]string, error) {
 	i := 0
 	for k := range a.Storage {
 		keys[i] = k
+		i++
 	}
 	return keys, nil
 }

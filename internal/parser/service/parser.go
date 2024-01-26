@@ -148,13 +148,20 @@ func (s *Service) getBlockData() {
 
 		// check for tx addresses
 		if _, ok := auxAddrMap[strings.ToLower(tx.From)]; ok {
-			addressHit = tx.From
-		} else if _, ok := auxAddrMap[strings.ToLower(tx.To)]; ok {
-			addressHit = tx.To
+			addressHit = strings.ToLower(tx.From)
+			// add tx to the aux map if and address has been found
+			if addressHit != "" {
+				auxAddrMap[addressHit] = append(auxAddrMap[addressHit], tx)
+			}
+			addressHit = ""
 		}
-		// add tx to the aux map if and address has been found
-		if addressHit != "" {
-			auxAddrMap[addressHit] = append(auxAddrMap[addressHit], tx)
+
+		if _, ok := auxAddrMap[strings.ToLower(tx.To)]; ok {
+			addressHit = strings.ToLower(tx.To)
+			// add tx to the aux map if and address has been found
+			if addressHit != "" {
+				auxAddrMap[addressHit] = append(auxAddrMap[addressHit], tx)
+			}
 		}
 	}
 	// update address storage
