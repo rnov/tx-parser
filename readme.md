@@ -93,7 +93,7 @@ will include supported list of operations defined in the Parser interface`.
   logging, metrics, tests, etc. are not implemented or greatly simplified.
 - `subscribe` is a PUT request because it's idempotent and can return `200` regardless of the address being already
     subscribed or not, that way we avoid complex logic of returning different status codes that would require a POST request.
-    No a fan of this approach but it's a tradeoff for simplicity.
+    Not a fan of this approach, but it's a tradeoff for simplicity.
 - Left some comments in the code to explain some decisions and possible improvements.
 
 
