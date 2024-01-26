@@ -55,11 +55,11 @@ The project initialises a http server that exposes the following endpoints:
 - `POST /subscribe`: Subscribes an address to be monitored.
 - `GET /transactions`: Returns the transactions for a subscribed address.
 
-Internally when started prior initialising and exposing the http server, the service initialises in parallel a
-monitoring process that check for new blocks and parses the transactions for the subscribed addresses, updating the
+Prior to initialize the REST server and expose the endpoints, the service starts in parallel a
+monitoring process that checks for new blocks and parses the transactions for the subscribed addresses, updating the
 storage accordingly.
 
-When data is requested from the exposed API, the storage is queried and the data is returned (exception for block, check
+When data is requested from the exposed API, the storage is queried and the data is returned (exception for getBlock, check
 notes).
 
 ### Design
@@ -68,6 +68,7 @@ The project's design largely adheres to
 the [golang-standards/project-layout](https://github.com/golang-standards/project-layout):
 
 - `cmd`: Contains the main applications for the project.
+- `config`: Holds the config file/s.
 - `internal`: Houses all the logic intended for internal use. Notably:
     - `http/node`: Implements client that's used to make call to ethereum nodes(JSONRPC).
     - `storage`: Defines the storage interface and its implementations.
@@ -76,17 +77,15 @@ the [golang-standards/project-layout](https://github.com/golang-standards/projec
     - `data`: Contains the data structures of the block and transaction response.
     - `config`: Shared logic and structures for the configuration of the project.
 
-That being said, the project is structured in a way that it could be easily extended to support the other
-functionalities
-of the task as described: `Expose public interface for external usage either via code or command line or rest api that
-will include supported list of operations defined in the Parser interface`. It allows to be extended adding support for
-cli or code.
+The project is structured in a way that it could easily extend support for other functionalities(cli,code) as described:
+`Expose public interface for external usage either via code or command line or rest api that
+will include supported list of operations defined in the Parser interface`.
 
 ### Notes
 
 - Followed all the points in `limitations` described in the task, the only external packages are for the mux and config loading.
 - Followed the advice regarding time, simplicity and guidance (not production ready), therefore things like graceful shutdown,
-  logging, metrics, etc. are not implemented or greatly simplified.
+  logging, metrics, tests, etc. are not implemented or greatly simplified.
 - Left some comments in the code to explain some decisions and possible improvements.
 
 
