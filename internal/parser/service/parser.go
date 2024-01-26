@@ -143,13 +143,13 @@ func (s *Service) getBlockData() {
 
 	// iterate all txs checking fields 'from' and 'to' if any matches our addresses
 	for _, tx := range rpcResp.Result.Transactions {
-		//fmt.Printf("from: %s to: %s\n", tx.From, tx.To)
+		//fmt.Printf("from: '%s' to: '%s'\n", tx.From, tx.To)
 		addressHit := ""
 
 		// check for tx addresses
-		if _, ok := auxAddrMap[strings.TrimSpace(tx.From)]; ok {
+		if _, ok := auxAddrMap[strings.ToLower(tx.From)]; ok {
 			addressHit = tx.From
-		} else if _, ok := auxAddrMap[strings.TrimSpace(tx.To)]; ok {
+		} else if _, ok := auxAddrMap[strings.ToLower(tx.To)]; ok {
 			addressHit = tx.To
 		}
 		// add tx to the aux map if and address has been found

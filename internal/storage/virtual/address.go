@@ -2,6 +2,7 @@ package virtual
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 	"tx-parser/pkg/data"
 )
@@ -26,8 +27,9 @@ func NewVirtualStorage() *AddressHistoryVirtualStorage {
 func (a *AddressHistoryVirtualStorage) AddAddress(address string) error {
 	a.RWMutex.Lock()
 	defer a.RWMutex.Unlock()
-	if _, ok := a.Storage[address]; !ok {
-		a.Storage[address] = make([]data.BlockTx, 0)
+	lcAddress := strings.ToLower(address)
+	if _, ok := a.Storage[lcAddress]; !ok {
+		a.Storage[lcAddress] = make([]data.BlockTx, 0)
 	}
 	return nil
 }
@@ -36,18 +38,19 @@ func (a *AddressHistoryVirtualStorage) AddAddress(address string) error {
 func (a *AddressHistoryVirtualStorage) CheckAddress(address string) (bool, error) {
 	a.RWMutex.Lock()
 	defer a.RWMutex.Unlock()
-	_, ok := a.Storage[address]
+	_, ok := a.Storage[strings.ToLower(address)]
 	return ok, nil
 }
 
 func (a *AddressHistoryVirtualStorage) GetTransactions(address string) ([]data.BlockTx, error) {
 	a.RWMutex.Lock()
 	defer a.RWMutex.Unlock()
-	if _, ok := a.Storage[address]; !ok {
+	lwAddress := strings.ToLower(address)
+	if _, ok := a.Storage[lwAddress]; !ok {
 		fmt.Println("logInfo: Address not found")
 		return make([]data.BlockTx, 0), nil
 	}
-	return a.Storage[address], nil
+	return a.Storage[lwAddress], nil
 }
 
 func (a *AddressHistoryVirtualStorage) GetAddresses() ([]string, error) {

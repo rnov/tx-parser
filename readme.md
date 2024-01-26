@@ -91,9 +91,14 @@ will include supported list of operations defined in the Parser interface`.
 - Followed all the points in `limitations` described in the task, the only external packages are for the mux and config loading.
 - Followed the advice regarding time, simplicity and guidance (not production ready), therefore things like graceful shutdown,
   logging, metrics, tests, etc. are not implemented or greatly simplified.
-- `subscribe` is a PUT request because it's idempotent and can return `200` regardless of the address being already
+- `/subscribe` is a PUT request because it's idempotent and can return `200` regardless of the address being already
     subscribed or not, that way we avoid complex logic of returning different status codes that would require a POST request.
     Not a fan of this approach, but it's a tradeoff for simplicity.
+- Since the addresses are not always consistent lower/upper case depend on where we got them with the response from the node,
+  they are stored in lower case, although there is better approaches to handle this (e.g: checksum), for the sake of simplicity.
+- The address used in the example `0xdac17f958d2ee523a2206206994597c13d831ec7` belongs to USDT (Tether) and has plenty of txs each block
+  another address that can be used is `0x28C6c06298d514Db089934071355E5743bf21d60` it belongs to binance however it has less txs per block,
+  making easier to read the responses.
 - Left some comments in the code to explain some decisions and possible improvements.
 
 
