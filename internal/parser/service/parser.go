@@ -78,11 +78,14 @@ func (s *Service) GetCurrentBlock() int {
 }
 
 func (s *Service) Subscribe(address string) bool {
-	// note: as noted in the description, simplicity not external libs not production ready: therefore not checking the address
-	if err := s.store.AddAddress(address); err != nil {
-		fmt.Printf("error adding address to store: %s\n", err.Error())
-		return false
+	// note: as noted in the description, simplicity, not external libs, not production ready: therefore not checking the address structure
+	if exist, _ := s.store.CheckAddress(address); !exist {
+		if err := s.store.AddAddress(address); err != nil {
+			fmt.Printf("error adding address to store: %s\n", err.Error())
+			return false
+		}
 	}
+
 	return true
 }
 

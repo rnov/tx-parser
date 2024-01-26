@@ -11,7 +11,7 @@ API_ENDPOINT="http://127.0.0.1:8080"
 
 # Function to get the latest block
 block() {
-    curl --location "$API_ENDPOINT/block"
+    curl --location "$API_ENDPOINT/block" | jq
 }
 
 # Function to get transactions for a specific address
@@ -21,7 +21,7 @@ transactions() {
         exit 1
     fi
     local address=$2
-    curl --location "$API_ENDPOINT/transactions/$address"
+    curl --location "$API_ENDPOINT/transactions/$address" | jq
 }
 
 # Function to subscribe to an address
@@ -31,7 +31,7 @@ subscribe() {
         exit 1
     fi
     local address=$2
-    curl --location "$API_ENDPOINT/subscribe" \
+    curl -X PUT --location "$API_ENDPOINT/subscribe" \
     --header 'Content-Type: application/json' \
     --data '{
         "address": "'$address'"

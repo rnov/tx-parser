@@ -9,33 +9,38 @@ The implementation and structure of the project follows all the requirements of 
 ### Quick Start
 
 To build and start the service locally:
-
 ```sh
 make all
 ```
 
+To stop the service:
+```sh
+make stop
+```
+
+To remove bin directory:
+```sh
+make clean
+```
+
 To start making request to the service:
 
-get current block number
-
+Get current block number
 ```sh
 make get-block
 ```
 
 Subscribe address to be monitored.
-
 ```sh
 make subscribe address="0xdac17f958d2ee523a2206206994597c13d831ec7"
 ```
 
 Get transactions for a subscribed address (empty if no transactions or address not subscribed)
-
 ```sh
 make get-txs address="0xdac17f958d2ee523a2206206994597c13d831ec7" 
 ```
 
-Alternatively you can use the following script to make requests:
-
+Alternatively you can use the following script to make requests (add jq for pretty printing):
 ```sh
 # get current block number
 ./tools/shell/requests.sh block | jq
@@ -52,7 +57,7 @@ Alternatively you can use the following script to make requests:
 The project initialises a http server that exposes the following endpoints:
 
 - `GET /block`: Returns the current block number.
-- `POST /subscribe`: Subscribes an address to be monitored.
+- `PUT /subscribe`: Subscribes an address to be monitored.
 - `GET /transactions`: Returns the transactions for a subscribed address.
 
 Prior to initialize the REST server and expose the endpoints, the service starts in parallel a
@@ -86,6 +91,9 @@ will include supported list of operations defined in the Parser interface`.
 - Followed all the points in `limitations` described in the task, the only external packages are for the mux and config loading.
 - Followed the advice regarding time, simplicity and guidance (not production ready), therefore things like graceful shutdown,
   logging, metrics, tests, etc. are not implemented or greatly simplified.
+- `subscribe` is a PUT request because it's idempotent and can return `200` regardless of the address being already
+    subscribed or not, that way we avoid complex logic of returning different status codes that would require a POST request.
+    No a fan of this approach but it's a tradeoff for simplicity.
 - Left some comments in the code to explain some decisions and possible improvements.
 
 

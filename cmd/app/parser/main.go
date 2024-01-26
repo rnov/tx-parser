@@ -34,7 +34,7 @@ func main() {
 	h := handler.NewParserHandler(nSrv)
 	r := mux.NewRouter()
 	r.HandleFunc("/block", h.GetCurrentBlock).Methods("GET")
-	r.HandleFunc("/subscribe", h.SubscribeAddress).Methods("POST")
+	r.HandleFunc("/subscribe", h.SubscribeAddress).Methods("PUT")
 	r.HandleFunc("/transactions/{address}", h.GetTransactions).Methods("GET")
 	fmt.Println("starting server")
 	// Fire up the server ":8080"

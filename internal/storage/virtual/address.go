@@ -1,7 +1,7 @@
 package virtual
 
 import (
-	"errors"
+	"fmt"
 	"sync"
 	"tx-parser/pkg/data"
 )
@@ -32,11 +32,20 @@ func (a *AddressHistoryVirtualStorage) AddAddress(address string) error {
 	return nil
 }
 
+// CheckAddress checks if the address is already in the storage.
+func (a *AddressHistoryVirtualStorage) CheckAddress(address string) (bool, error) {
+	a.RWMutex.Lock()
+	defer a.RWMutex.Unlock()
+	_, ok := a.Storage[address]
+	return ok, nil
+}
+
 func (a *AddressHistoryVirtualStorage) GetTransactions(address string) ([]data.BlockTx, error) {
 	a.RWMutex.Lock()
 	defer a.RWMutex.Unlock()
 	if _, ok := a.Storage[address]; !ok {
-		return nil, errors.New("address not found")
+		fmt.Println("logInfo: Address not found")
+		return make([]data.BlockTx, 0), nil
 	}
 	return a.Storage[address], nil
 }
