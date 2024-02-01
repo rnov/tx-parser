@@ -2,9 +2,7 @@
 
 Made with :blue_heart: by rnov.
 
-tx-Parser is an implementation of the
-following [task](https://trustwallet.notion.site/Backend-Homework-Tx-Parser-abd431fca950427db75d73d90a0244a8).
-The implementation and structure of the project follows all the requirements of the task.
+tx-Parser parses ethereum transactions every block for a given address and stores them in memory, it exposes a REST API to query the data.
 
 ### Quick Start
 
@@ -82,15 +80,8 @@ the [golang-standards/project-layout](https://github.com/golang-standards/projec
     - `data`: Contains the data structures of the block and transaction response.
     - `config`: Shared logic and structures for the configuration of the project.
 
-The project is structured in a way that it could easily extend support for other functionalities(cli,code) as described:
-`Expose public interface for external usage either via code or command line or rest api that
-will include supported list of operations defined in the Parser interface`.
-
 ### Notes
 
-- Followed all the points in `limitations` described in the task, the only external packages are for the mux and config loading.
-- Followed the advice regarding time, simplicity and guidance (not production ready), therefore things like graceful shutdown,
-  logging, metrics, tests, etc. are not implemented or greatly simplified.
 - `/subscribe` is a PUT request because it's idempotent and can return `200` regardless of the address being already
     subscribed or not, that way we avoid complex logic of returning different status codes that would require a POST request.
     Not a fan of this approach, but it's a tradeoff for simplicity.
@@ -99,6 +90,5 @@ will include supported list of operations defined in the Parser interface`.
 - The address used in the example `0xdac17f958d2ee523a2206206994597c13d831ec7` belongs to USDT (Tether) and has plenty of txs each block
   another address that can be used is `0x28C6c06298d514Db089934071355E5743bf21d60` it belongs to binance however it has less txs per block,
   making easier to read the responses.
-- Left some comments in the code to explain some decisions and possible improvements.
 
 
